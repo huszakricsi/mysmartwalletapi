@@ -14,3 +14,12 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+Rails.application.config.middleware.use Rack::Cors do
+    allow do
+      origins 'https://mysmartwallet.herokuapp.com/'
+      resource '*',
+      :headers => :any,
+      #:expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'], in the future in case of authentication
+      :methods => [:get, :post, :options, :delete, :put]
+    end
+  end

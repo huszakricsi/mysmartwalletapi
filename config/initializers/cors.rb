@@ -4,22 +4,12 @@
 # Handle Cross-Origin Resource Sharing (CORS) in order to accept cross-origin AJAX requests.
 
 # Read more: https://github.com/cyu/rack-cors
-
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins 'example.com'
-#
-#     resource '*',
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
 Rails.application.config.middleware.use Rack::Cors do
     allow do
       origins 'https://mysmartwallet.herokuapp.com/'
       resource '*',
       :headers => :any,
-      #:expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'], in the future in case of authentication
+      :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
       :methods => [:get, :post, :options, :delete, :put]
     end
   end

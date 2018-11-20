@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
+  has_many :transactions, :class_name => "Transaction"
+  has_many :accounts, :class_name => "Account"
 end

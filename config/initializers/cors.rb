@@ -6,7 +6,7 @@
 # Read more: https://github.com/cyu/rack-cors
 Rails.application.config.middleware.use Rack::Cors do
     allow do
-      origins 'https://mysmartwallet.herokuapp.com/'
+      origins 'https://mysmartwallet.herokuapp.com'
       resource '*',
       :headers => :any,
       :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],

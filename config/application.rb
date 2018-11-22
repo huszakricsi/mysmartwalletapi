@@ -26,7 +26,7 @@ module Mysmartwalletapi
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'https://mysmartwallet.herokuapp.com'
-        resource '*', headers: :any, methods: [:get, :post, :options]#, credentials: true in the future in case of authentication
+        resource '*', headers: :any, methods: [:get, :post, :options, :delete], credentials: true
       end
     end
     # Settings in config/environments/* take precedence over those specified here.

@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 #currency seed
+Currency.delete_all
 puts 'Seeding currencies'
 currencies = ['ATS', 'AUD', 'AUP', 'BEF', 'BGL', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CYN', 'CZK', 'CSD', 'CSK', 'DDM', 'DEM', 'DKK', 'EEK', 'EGP', 'ESP', 'EUR', 'FIM', 'FRF', 'GBP', 'GHP', 'GRD', 'HKD', 'HRK', 'HUF', 'IDR', 'IEP', 'ILS', 'INR', 'ISK', 'ITL', 'JPY', 'KPW', 'KRW', 'KWD', 'LBP', 'LTL', 'LUF', 'LVL', 'MNT', 'MXN', 'MYR', 'NLG', 'NOK', 'NZD', 'OAL', 'OBL', 'OFR', 'ORB', 'PHP', 'PKR', 'PLN', 'PTE', 'ROL', 'RON', 'RSD', 'RUB', 'SDP', 'SEK', 'SGD', 'SIT', 'SKK', 'SUR', 'THB', 'TRY', 'UAH', 'USD', 'VND', 'XEU', 'XTR', 'YUD', 'ZAR']
 currencies.each{|currency| Currency.create(iso_code: currency)}
@@ -14,18 +15,19 @@ puts 'Currency seeding finished.'
 
 #category seed
 puts 'Seeding categories'
-food_and_drinks = ['food_and_drinks_others', 'bar_cafe', 'groceries', 'restaurant_fast_food'];
+food_and_drinks = ['food_and_drinks_others', 'bar_cafe', 'groceries', 'restaurant_fast_food']
 shopping = ['shopping_others', 'clothes_and_shoes', 'drug_store_chemist', 'electronics_accessories', 'free_time', 'gifts_joy', 'health_and_beauty', 'home_garden', 'jewels_accessories', 'kids', 'pets_animals', 'stationery_tools']
 housing = ['housing_others', 'energy_utilities', 'maintenance_repairs', 'mortgage', 'property_insurance', 'rent', 'services']
 transportation = ['transportation_others', 'business_trips', 'long_distance', 'public_transport', 'taxi']
 vehicle = ['vehicle_others', 'fuel', 'leasing', 'parking', 'rentals','vehicle_insurance', 'vehicle_maintenance']
-life_and_entertainment = ['life_and_entertainment_others', 'active_sport_fitness', 'alcohol_tobacco', 'books_audio_subscriptions', 'charity_gifts', 'culture_sport_events', 'education_development', 'health_care_doctor', 'hobbies', 'holiday_trips_hotels', 'life_events', 'lottery_gambling', 'tv_streaming', 'wellness_beauty']
+life_and_entertainment = ['life_and_entertainment_others', 'active_sport_fitness', 'alcohol_tobacco', 'books_audio_subscriptions', 'charity_gifts', 'culture_sport_events', 'education_development', 'health_care_doctor', 'hobbies', 'holiday_trips_hotels', 'life_events', 'life_and_entertainment_lottery_gambling', 'tv_streaming', 'wellness_beauty']
 communication_pc = ['communication_pc_others', 'internet', 'phone', 'postal_services', 'software_apps_games']
-financial_expenses = ['financial_expenses_others', 'advisory', 'charges_fees', 'child_support', 'fines', 'insurances', 'loan_interests', 'taxes']
+financial_expenses = ['financial_expenses_others', 'advisory', 'charges_fees', 'financial_expenses_child_support', 'fines', 'insurances', 'loan_interests', 'taxes']
 investments = ['investments_others', 'collections', 'financial_investments', 'realty', 'savings', 'vehicles_chattels']
 income = ['income_others', 'checks_coupons', 'child_support', 'dues_and_grants', 'gifts', 'interests_dividends', 'lending_renting', 'lottery_gambling', 'refunds_tax_purchase', 'rental_income', 'sale', 'wage_invoices']
-#others..
+others = ['others_others']
 
+Category.delete_all
 food_and_drinks_category = Category.create(label: 'food_and_drinks')
 food_and_drinks.each{|sub_category_label| Category.create(label: sub_category_label, parent: food_and_drinks_category)}
 shopping_category = Category.create(label: 'shopping')
@@ -46,5 +48,6 @@ investments_category = Category.create(label: 'investments')
 investments.each{|sub_category_label| Category.create(label: sub_category_label, parent: investments_category)}
 income_category = Category.create(label: 'income')
 income.each{|sub_category_label| Category.create(label: sub_category_label, parent: income_category)}
-Category.create(label: 'others')
+others_category = Category.create(label: 'others')
+others.each{|sub_category_label| Category.create(label: sub_category_label, parent: others_category)}
 puts 'Category seeding finished.'

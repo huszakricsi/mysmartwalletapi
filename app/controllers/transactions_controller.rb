@@ -3,6 +3,7 @@ class TransactionsController < ApplicationController
     def getTransactions
       render status: 200, json: {'transactions': Transaction.where(user: current_user).map{|transactions| { :id => transactions.id, :amount=> transactions.amount, :comment => transactions.comment, :account_id => transactions.account_id, :category_id => transactions.category_id, :created_at => transactions.created_at }}}
     end
+
     def createTransaction
       Transaction.create!(amount: params[:amount], comment: params[:comment], user: current_user, account_id: params[:account_id], category_id: params[:category_id])
       acc = Account.find(params[:account_id])
@@ -15,21 +16,42 @@ class TransactionsController < ApplicationController
       end
       render status: 200, json: @controller.to_json
     end
+
     def editTransaction
-      acc = Transaction.find(params[:id])
-      if(acc.user_id == current_user.id)
-        acc.balance = params[:balance]
-        acc.name = params[:name]
-        acc.save     
+      income_category = Category.find_by_label("income")
+
+      transaction = Transaction.find(params[:id]) #finding our transaction and reverting it's changes on account
+      old_acc = transaction.account
+      old_category = transaction.category
+      if income_category.childs.include?(old_category)
+        old_acc.decrement!(:balance, transaction.amount)
+      elsif
+        old_acc.increment!(:balance, transaction.amount)
       end
-      render status: 200, json: user_signed_in?
+
+      transaction.update(amount: params[:amount],comment: params[:comment],account_id: params[:account_id],category_id: params[:category_id]) #updating transaction
+      new_acc = transaction.account
+      new_category = transaction.category
+      if income_category.childs.include?(new_category)
+        new_acc.increment!(:balance, params[:amount])
+      elsif
+        new_acc.decrement!(:balance, params[:amount])
+      end
+      render status: 200, json: @controller.to_json
     end
+
     def deleteTransaction
-      acc = Transaction.find(params[:id])
-      if(acc.user_id == current_user.id)
-        acc.transactions.delete_all
-        acc.delete
+      income_category = Category.find_by_label("income")
+
+      transaction = Transaction.find(params[:id]) #finding our transaction and reverting it's changes on account
+      old_acc = transaction.account
+      old_category = transaction.category
+      if income_category.childs.include?(old_category)
+        old_acc.decrement!(:balance, transaction.amount)
+      elsif
+        old_acc.increment!(:balance, transaction.amount)
       end
+      transaction.delete
       render status: 200, json: @controller.to_json
     end
   end

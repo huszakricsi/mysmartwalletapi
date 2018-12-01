@@ -1,7 +1,9 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
     def getTransactions
-      render status: 200, json: {'transactions': Transaction.where(user: current_user).map{|transactions| { :id => transactions.id, :amount=> transactions.amount, :comment => transactions.comment, :account_id => transactions.account_id, :category_id => transactions.category_id, :created_at => transactions.created_at }}}
+      income_category = Category.find_by_label("income")
+
+      render status: 200, json: {'transactions': Transaction.where(user: current_user).map{|transaction| { :id => transaction.id, :amount=> transaction.amount, :comment => transaction.comment, :account_id => transaction.account_id, :category_id => transaction.category_id, :created_at => transaction.created_at, isIncome: income_category.childs.include?(transaction.category) }}}
     end
 
     def createTransaction

@@ -7,7 +7,7 @@ class TransactionsController < ApplicationController
     end
 
     def createTransaction
-      Transaction.create!(amount: params[:amount], comment: params[:comment], user: current_user, account_id: params[:account_id], category_id: params[:category_id])
+      Transaction.create!(amount: params[:amount], comment: params[:comment], user: current_user, account_id: params[:account_id], category_id: params[:category_id], created_at: params[:created_at])
       acc = Account.find(params[:account_id])
       category = Category.find(params[:category_id])
       income_category = Category.find_by_label("income")

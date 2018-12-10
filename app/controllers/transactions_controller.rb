@@ -31,7 +31,7 @@ class TransactionsController < ApplicationController
         old_acc.increment!(:balance, transaction.amount)
       end
 
-      transaction.update(amount: params[:amount],comment: params[:comment],account_id: params[:account_id],category_id: params[:category_id]) #updating transaction
+      transaction.update(amount: params[:amount],comment: params[:comment],account_id: params[:account_id],category_id: params[:category_id], created_at: params[:created_at]) #updating transaction
       new_acc = transaction.account
       new_category = transaction.category
       if income_category.childs.include?(new_category)
